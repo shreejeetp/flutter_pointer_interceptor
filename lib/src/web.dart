@@ -18,12 +18,12 @@ String _getViewType({bool debug = false}) {
 }
 
 // Registers a viewFactory for this widget.
-void _registerFactory({bool debug = false}) {
+void _registerFactory({bool debug = false, String? height, String? width}) {
   final String viewType = _getViewType(debug: debug);
   ui.platformViewRegistry.registerViewFactory(viewType, (int viewId) {
     final html.Element htmlElement = html.DivElement()
-      ..style.width = '100%'
-      ..style.height = '100%';
+      ..style.width = width ?? '100%'
+      ..style.height = height ?? '100%';
     if (debug) {
       htmlElement.style.backgroundColor = 'rgba(255, 0, 0, .5)';
     }
@@ -40,10 +40,12 @@ class PointerInterceptor extends StatelessWidget {
     required this.child,
     this.intercepting = true,
     this.debug = false,
+    this.heightWeb,
+    this.widthWeb,
     super.key,
   }) {
     if (!_registered) {
-      _register();
+      _register(height: heightWeb, width: widthWeb);
     }
   }
 
@@ -52,6 +54,9 @@ class PointerInterceptor extends StatelessWidget {
 
   /// Whether or not this `PointerInterceptor` should intercept pointer events.
   final bool intercepting;
+
+  final String? heightWeb;
+  final String? widthWeb;
 
   /// When true, the widget renders with a semi-transparent red background, for debug purposes.
   ///
@@ -63,11 +68,11 @@ class PointerInterceptor extends StatelessWidget {
   static bool _registered = false;
 
   // Registers the view factories for the interceptor widgets.
-  static void _register() {
+  static void _register({String? height, String? width}) {
     assert(!_registered);
 
-    _registerFactory();
-    _registerFactory(debug: true);
+    _registerFactory(height: height, width: width);
+    _registerFactory(height: height, width: width, debug: true);
 
     _registered = true;
   }

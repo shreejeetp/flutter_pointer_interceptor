@@ -12,6 +12,8 @@ class PointerInterceptor extends StatelessWidget {
     required this.child,
     this.intercepting = true,
     this.debug = false,
+    this.heightWeb,
+    this.widthWeb,
     super.key,
   });
 
@@ -20,6 +22,9 @@ class PointerInterceptor extends StatelessWidget {
 
   /// Whether or not this `PointerInterceptor` should intercept pointer events.
   final bool intercepting;
+
+  final String? heightWeb;
+  final String? widthWeb;
 
   /// When true, the widget renders with a semi-transparent red background, for debug purposes.
   ///
